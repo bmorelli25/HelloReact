@@ -18,19 +18,34 @@ var GreeterForm = React.createClass({ //presentational component
   onFormSubmit: function (e) {
     e.preventDefault(); //prevent browser from refreshing
 
+    var updates = {};
     var name = this.refs.name.value;
+    var message = this.refs.message.value;
 
     if (name.length > 0) {
       this.refs.name.value = '';
-      this.props.onNewName(name); //gets passed onNewName function, then calls it with (name)
+      updates.name = name;
     }
+    if (message.length > 0) {
+      this.refs.message.value = '';
+      updates.message = message;
+    }
+
+    this.props.onNewData(updates); //gets passed onNewName function, then calls it with (name)
   },
   render: function () {
     return (
       <div>
         <form onSubmit={this.onFormSubmit}>
-          <input type="text" ref="name"/>
-          <button>Set Name</button>
+          <div>
+            <input type="text" ref="name" placeholder="Enter Name"/>
+          </div>
+          <div>
+            <textarea ref="message" placeholder="Enter Message"></textarea>
+          </div>
+          <div>
+            <button>Submit</button>
+          </div>
         </form>
       </div>
     );
@@ -47,22 +62,21 @@ var Greeter = React.createClass({ //one argument: options object, only thing tha
   getInitialState: function () {
     //similiar to get default props. Returns an object which gets set to this.state
     return {
-      name: this.props.name //you know you're gonna get a name prop no matter what. As a component, maintain a name state that you can change yourself
+      name: this.props.name, //you know you're gonna get a name prop no matter what. As a component, maintain a name state that you can change yourself
+      message: this.props.message
     }
   },
-  handleNewName: function (name) { // event handler gets passed event object 'e'
-    this.setState({ //maintains state for the application. When state changes it rerenders its children
-      name: name
-    });
+  handleNewData: function (updates) { // event handler gets passed event object 'e'
+    this.setState(updates); //maintains state for the application. When state changes it rerenders its children
   },
   render: function(){ //expects jsx code to be returned
     var name = this.state.name;
-    var message = this.props.message;
+    var message = this.state.message;
 
     return ( //can only return ONE root element. That is why we have this div
       <div>
         <GreeterMessage name={name} message={message}/>
-        <GreeterForm onNewName={this.handleNewName}/>
+        <GreeterForm onNewData={this.handleNewData}/>
       </div>
     );
   }

@@ -6,14 +6,27 @@ var Greeter = React.createClass({ //one argument: options object, only thing tha
       message: 'This is the default message.'
     };
   },
+  getInitialState: function () {
+    //similiar to get default props. Returns an object which gets set to this.state
+    return {
+      name: this.props.name //you know you're gonna get a name prop no matter what. As a component, maintain a name state that you can change yourself
+    }
+  },
   onButtonClick: function (e) { // event handler gets passed event object 'e'
     e.preventDefault(); //prevent the form from causing a page refresh
 
-    var name = this.refs.name.value;
-    alert(name);
+    var nameRef = this.refs.name;
+    var name = nameRef.value;
+    nameRef.value = ''; //clear the textbox
+
+    if (typeof name === 'string' && name.length > 0){
+      this.setState({
+        name: name
+      });
+    }
   },
   render: function(){ //expects jsx code to be returned
-    var name = this.props.name;
+    var name = this.state.name;
     var message = this.props.message;
 
     return ( //can only return ONE root element. That is why we have this div

@@ -1,8 +1,10 @@
 //uppercase for react components
-var GreeterMessage = React.createClass({
+var GreeterMessage = React.createClass({ //presentational component
   render: function () {
+    //these two props are passed from the parents
     var name = this.props.name;
     var message = this.props.message;
+    //it then renders them to the screen
     return (
       <div>
         <h1>Hello {name}!</h1>
@@ -12,7 +14,7 @@ var GreeterMessage = React.createClass({
   }
 });
 
-var GreeterForm = React.createClass({
+var GreeterForm = React.createClass({ //presentational component
   onFormSubmit: function (e) {
     e.preventDefault(); //prevent browser from refreshing
 
@@ -20,7 +22,7 @@ var GreeterForm = React.createClass({
 
     if (name.length > 0) {
       this.refs.name.value = '';
-      this.props.onNewName(name);
+      this.props.onNewName(name); //gets passed onNewName function, then calls it with (name)
     }
   },
   render: function () {
@@ -34,7 +36,7 @@ var GreeterForm = React.createClass({
     );
   }
 });
-
+//container component
 var Greeter = React.createClass({ //one argument: options object, only thing that is required is a render method
   getDefaultProps: function () {
     return {
@@ -49,7 +51,7 @@ var Greeter = React.createClass({ //one argument: options object, only thing tha
     }
   },
   handleNewName: function (name) { // event handler gets passed event object 'e'
-    this.setState({
+    this.setState({ //maintains state for the application. When state changes it rerenders its children
       name: name
     });
   },

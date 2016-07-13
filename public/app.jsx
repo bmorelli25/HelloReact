@@ -1,20 +1,32 @@
 //uppercase for react components
 var GreeterMessage = React.createClass({
   render: function () {
+    var name = this.props.name;
+    var message = this.props.message;
     return (
       <div>
-        <h1>Some H1</h1>
-        <p>Some P</p>
+        <h1>Hello {name}!</h1>
+        <p>{message}</p>
       </div>
     );
   }
 });
 
 var GreeterForm = React.createClass({
+  onFormSubmit: function (e) {
+    e.preventDefault(); //prevent browser from refreshing
+
+    var name = this.refs.name.value;
+
+    if (name.length > 0) {
+      this.refs.name.value = '';
+      this.props.onNewName(name);
+    }
+  },
   render: function () {
     return (
       <div>
-        <form>
+        <form onSubmit={this.onFormSubmit}>
           <input type="text" ref="name"/>
           <button>Set Name</button>
         </form>
@@ -36,18 +48,10 @@ var Greeter = React.createClass({ //one argument: options object, only thing tha
       name: this.props.name //you know you're gonna get a name prop no matter what. As a component, maintain a name state that you can change yourself
     }
   },
-  onButtonClick: function (e) { // event handler gets passed event object 'e'
-    e.preventDefault(); //prevent the form from causing a page refresh
-
-    var nameRef = this.refs.name;
-    var name = nameRef.value;
-    nameRef.value = ''; //clear the textbox
-
-    if (typeof name === 'string' && name.length > 0){
-      this.setState({
-        name: name
-      });
-    }
+  handleNewName: function (name) { // event handler gets passed event object 'e'
+    this.setState({
+      name: name
+    });
   },
   render: function(){ //expects jsx code to be returned
     var name = this.state.name;
@@ -55,25 +59,15 @@ var Greeter = React.createClass({ //one argument: options object, only thing tha
 
     return ( //can only return ONE root element. That is why we have this div
       <div>
-        <h1>Hello {name}!</h1>
-        <p>{message}</p>
-
-        <GreeterMessage/>
-
-        <form onSubmit={this.onButtonClick}>
-          <input type="text" ref="name"/>
-          <button>Set Name</button>
-        </form>
-
-        <GreeterForm/>
-
+        <GreeterMessage name={name} message={message}/>
+        <GreeterForm onNewName={this.handleNewName}/>
       </div>
     );
   }
 });
 
 var firstName = 'Brandon';
-var message = 'Message from prop';
+var message;
 
 ReactDOM.render(
   <Greeter name={firstName} message={message}/>,

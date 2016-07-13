@@ -6,6 +6,12 @@ var Greeter = React.createClass({ //one argument: options object, only thing tha
       message: 'This is the default message.'
     };
   },
+  onButtonClick: function (e) { // event handler gets passed event object 'e'
+    e.preventDefault(); //prevent the form from causing a page refresh
+
+    var name = this.refs.name.value;
+    alert(name);
+  },
   render: function(){ //expects jsx code to be returned
     var name = this.props.name;
     var message = this.props.message;
@@ -14,14 +20,20 @@ var Greeter = React.createClass({ //one argument: options object, only thing tha
       <div>
         <h1>Hello {name}!</h1>
         <p>{message}</p>
+
+        <form onSubmit={this.onButtonClick}>
+          <input type="text" ref="name"/>
+          <button>Set Name</button>
+        </form>
       </div>
     );
   }
 });
 
 var firstName = 'Brandon';
+var message = 'Message from prop';
 
 ReactDOM.render(
-  <Greeter name={firstName} message="Message from prop!"/>,
+  <Greeter name={firstName} message={message}/>,
   document.getElementById('app')
 );

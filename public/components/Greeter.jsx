@@ -1,7 +1,7 @@
 var React = require('react');
 
-var GreeterMessage = require('./GreeterMessage');
-var GreeterForm = require('./GreeterForm');
+var GreeterMessage = require('GreeterMessage');
+var GreeterForm = require('GreeterForm');
 
 //container component
 var Greeter = React.createClass({ //one argument: options object, only thing that is required is a render method

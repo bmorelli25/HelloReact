@@ -1,3 +1,6 @@
+var React = require('react');
+var ReactDOM = require('react-dom');
+
 //uppercase for react components
 var GreeterMessage = React.createClass({ //presentational component
   render: function () {

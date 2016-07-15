@@ -49,123 +49,9 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 
-	//uppercase for react components
-	var GreeterMessage = React.createClass({
-	  displayName: 'GreeterMessage',
-	  //presentational component
-	  render: function render() {
-	    //these two props are passed from the parents
-	    var name = this.props.name;
-	    var message = this.props.message;
-	    //it then renders them to the screen
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Hello ',
-	        name,
-	        '!'
-	      ),
-	      React.createElement(
-	        'p',
-	        null,
-	        message
-	      )
-	    );
-	  }
-	});
+	var Greeter = __webpack_require__(159);
 
-	var GreeterForm = React.createClass({
-	  displayName: 'GreeterForm',
-	  //presentational component
-	  onFormSubmit: function onFormSubmit(e) {
-	    e.preventDefault(); //prevent browser from refreshing
-
-	    var updates = {};
-	    var name = this.refs.name.value;
-	    var message = this.refs.message.value;
-
-	    if (name.length > 0) {
-	      this.refs.name.value = '';
-	      updates.name = name;
-	    }
-	    if (message.length > 0) {
-	      this.refs.message.value = '';
-	      updates.message = message;
-	    }
-
-	    this.props.onNewData(updates); //gets passed onNewName function, then calls it with (name)
-	  },
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'form',
-	        { onSubmit: this.onFormSubmit },
-	        React.createElement(
-	          'div',
-	          null,
-	          React.createElement('input', { type: 'text', ref: 'name', placeholder: 'Enter Name' })
-	        ),
-	        React.createElement(
-	          'div',
-	          null,
-	          React.createElement('textarea', { ref: 'message', placeholder: 'Enter Message' })
-	        ),
-	        React.createElement(
-	          'div',
-	          null,
-	          React.createElement(
-	            'button',
-	            null,
-	            'Submit'
-	          )
-	        )
-	      )
-	    );
-	  }
-	});
-	//container component
-	var Greeter = React.createClass({
-	  displayName: 'Greeter',
-	  //one argument: options object, only thing that is required is a render method
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      name: 'React',
-	      message: 'This is the default message.'
-	    };
-	  },
-	  getInitialState: function getInitialState() {
-	    //similiar to get default props. Returns an object which gets set to this.state
-	    return {
-	      name: this.props.name, //you know you're gonna get a name prop no matter what. As a component, maintain a name state that you can change yourself
-	      message: this.props.message
-	    };
-	  },
-	  handleNewData: function handleNewData(updates) {
-	    // event handler gets passed event object 'e'
-	    this.setState(updates); //maintains state for the application. When state changes it rerenders its children
-	  },
-	  render: function render() {
-	    //expects jsx code to be returned
-	    var name = this.state.name;
-	    var message = this.state.message;
-
-	    return (//can only return ONE root element. That is why we have this div
-	      React.createElement(
-	        'div',
-	        null,
-	        React.createElement(GreeterMessage, { name: name, message: message }),
-	        React.createElement(GreeterForm, { onNewData: this.handleNewData })
-	      )
-	    );
-	  }
-	});
-
-	var firstName = 'Brandon';
+	var firstName;
 	var message;
 
 	ReactDOM.render(React.createElement(Greeter, { name: firstName, message: message }), document.getElementById('app'));
@@ -19798,6 +19684,155 @@
 
 	module.exports = __webpack_require__(3);
 
+
+/***/ },
+/* 159 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var GreeterMessage = __webpack_require__(160);
+	var GreeterForm = __webpack_require__(161);
+
+	//container component
+	var Greeter = React.createClass({
+	  displayName: 'Greeter',
+	  //one argument: options object, only thing that is required is a render method
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      name: 'React',
+	      message: 'This is the default message.'
+	    };
+	  },
+	  getInitialState: function getInitialState() {
+	    //similiar to get default props. Returns an object which gets set to this.state
+	    return {
+	      name: this.props.name, //you know you're gonna get a name prop no matter what. As a component, maintain a name state that you can change yourself
+	      message: this.props.message
+	    };
+	  },
+	  handleNewData: function handleNewData(updates) {
+	    // event handler gets passed event object 'e'
+	    this.setState(updates); //maintains state for the application. When state changes it rerenders its children
+	  },
+	  render: function render() {
+	    //expects jsx code to be returned
+	    var name = this.state.name;
+	    var message = this.state.message;
+
+	    return (//can only return ONE root element. That is why we have this div
+	      React.createElement(
+	        'div',
+	        null,
+	        React.createElement(GreeterMessage, { name: name, message: message }),
+	        React.createElement(GreeterForm, { onNewData: this.handleNewData })
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Greeter;
+
+/***/ },
+/* 160 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var GreeterMessage = React.createClass({
+	  displayName: 'GreeterMessage',
+	  //presentational component
+	  render: function render() {
+	    //these two props are passed from the parents
+	    var name = this.props.name;
+	    var message = this.props.message;
+	    //it then renders them to the screen
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Hello ',
+	        name,
+	        '!'
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        message
+	      )
+	    );
+	  }
+	});
+
+	module.exports = GreeterMessage;
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var GreeterForm = React.createClass({
+	  displayName: 'GreeterForm',
+	  //presentational component
+	  onFormSubmit: function onFormSubmit(e) {
+	    e.preventDefault(); //prevent browser from refreshing
+
+	    var updates = {};
+	    var name = this.refs.name.value;
+	    var message = this.refs.message.value;
+
+	    if (name.length > 0) {
+	      this.refs.name.value = '';
+	      updates.name = name;
+	    }
+	    if (message.length > 0) {
+	      this.refs.message.value = '';
+	      updates.message = message;
+	    }
+
+	    this.props.onNewData(updates); //gets passed onNewName function, then calls it with (name)
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.onFormSubmit },
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement('input', { type: 'text', ref: 'name', placeholder: 'Enter Name' })
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement('textarea', { ref: 'message', placeholder: 'Enter Message' })
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'button',
+	            null,
+	            'Submit'
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = GreeterForm;
 
 /***/ }
 /******/ ]);

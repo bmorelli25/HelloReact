@@ -1,91 +1,9 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-//uppercase for react components
-var GreeterMessage = React.createClass({ //presentational component
-  render: function () {
-    //these two props are passed from the parents
-    var name = this.props.name;
-    var message = this.props.message;
-    //it then renders them to the screen
-    return (
-      <div>
-        <h1>Hello {name}!</h1>
-        <p>{message}</p>
-      </div>
-    );
-  }
-});
+var Greeter = require('./components/Greeter');
 
-var GreeterForm = React.createClass({ //presentational component
-  onFormSubmit: function (e) {
-    e.preventDefault(); //prevent browser from refreshing
-
-    var updates = {};
-    var name = this.refs.name.value;
-    var message = this.refs.message.value;
-
-    if (name.length > 0) {
-      this.refs.name.value = '';
-      updates.name = name;
-    }
-    if (message.length > 0) {
-      this.refs.message.value = '';
-      updates.message = message;
-    }
-
-    this.props.onNewData(updates); //gets passed onNewName function, then calls it with (name)
-  },
-  render: function () {
-    return (
-      <div>
-        <form onSubmit={this.onFormSubmit}>
-          <div>
-            <input type="text" ref="name" placeholder="Enter Name"/>
-          </div>
-          <div>
-            <textarea ref="message" placeholder="Enter Message"></textarea>
-          </div>
-          <div>
-            <button>Submit</button>
-          </div>
-        </form>
-      </div>
-    );
-  }
-});
-//container component
-var Greeter = React.createClass({ //one argument: options object, only thing that is required is a render method
-  getDefaultProps: function () {
-    return {
-      name: 'React',
-      message: 'This is the default message.'
-    };
-  },
-  getInitialState: function () {
-    //similiar to get default props. Returns an object which gets set to this.state
-    return {
-      name: this.props.name, //you know you're gonna get a name prop no matter what. As a component, maintain a name state that you can change yourself
-      message: this.props.message
-    }
-  },
-  handleNewData: function (updates) { // event handler gets passed event object 'e'
-    this.setState(updates); //maintains state for the application. When state changes it rerenders its children
-  },
-  render: function(){ //expects jsx code to be returned
-    var name = this.state.name;
-    var message = this.state.message;
-
-    return ( //can only return ONE root element. That is why we have this div
-      <div>
-        <GreeterMessage name={name} message={message}/>
-        <GreeterForm onNewData={this.handleNewData}/>
-      </div>
-    );
-  }
-});
-
-var firstName = 'Brandon';
+var firstName;
 var message;
 
 ReactDOM.render(
